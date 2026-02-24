@@ -38,21 +38,20 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.45;
+    overflow-x: hidden;
   }
 
   /* ── Page shell ── */
   .page {
     width: 210mm;
-    height: 297mm;
     margin: 0 auto;
     padding: 18px 22px 14px;
     position: relative;
-    overflow: hidden;
     background: var(--bg);
     display: flex;
     flex-direction: column;
   }
-  .page + .page { page-break-before: always; }
+  .page + .page { padding-top: 20px; }
 
   /* ── Ambient ── */
   .ambient { position: absolute; pointer-events: none; z-index: 0; border-radius: 50%; filter: blur(60px); }
@@ -81,16 +80,7 @@
     content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 10px;
     background: var(--accent-gradient); filter: blur(14px); opacity: 0.5;
   }
-  .glow-line::after {
-    content: ''; position: absolute; top: 0; left: -40%; width: 40%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
-    animation: shimmer 2.5s ease-in-out infinite;
-  }
-  @keyframes shimmer { 0% { left: -40%; } 100% { left: 140%; } }
-  .glow-line-bottom {
-    position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
-    background: var(--accent-gradient); z-index: 10; opacity: 0.4;
-  }
+  .glow-line-bottom { display: none; }
 
   /* ── Header ── */
   .header {
@@ -213,7 +203,7 @@
   /* ── Bottom section ── */
   .bottom-section {
     flex: 1; min-height: 0;
-    display: grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 8px;
+    display: flex; flex-direction: column; gap: 8px;
   }
 
   .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -234,7 +224,7 @@
   .chart-panel {
     background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
     border: 1px solid var(--border); border-radius: 10px;
-    padding: 10px 16px 8px; position: relative; overflow: hidden; min-height: 0;
+    padding: 10px 6px 6px; position: relative; overflow: hidden; min-height: 0;
   }
   .chart-panel::before {
     content: ''; position: absolute; top: -1px; left: 15%; right: 15%;
@@ -242,11 +232,11 @@
   }
   .chart-panel h3 {
     font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem;
-    margin-bottom: 3px; color: var(--text);
+    margin-bottom: 3px; color: var(--text); padding-left: 10px;
   }
-  .chart-wrap { width: 100%; height: calc(100% - 32px); }
+  .chart-wrap { width: 100%; height: 180px; }
   .chart-svg { width: 100%; height: 100%; display: block; }
-  .chart-legend { display: flex; gap: 16px; margin-top: 2px; font-size: 0.72rem; }
+  .chart-legend { display: flex; gap: 16px; margin-top: 1px; font-size: 0.72rem; padding-left: 10px; }
   .chart-legend span { display: flex; align-items: center; gap: 5px; color: var(--text-dim); }
   .chart-legend .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .dot.manual { background: #444; border: 1px solid #666; }
@@ -257,12 +247,12 @@
      ══════════════════════════ */
 
   .page2-header {
-    margin-bottom: 16px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border); position: relative;
+    margin-bottom: 12px; padding-top: 16px; position: relative;
+    border-top: 1px solid var(--border);
   }
   .page2-header::after {
-    content: ''; position: absolute; bottom: -1px; left: 0;
-    width: 200px; height: 1px; background: var(--accent-gradient);
+    content: ''; position: absolute; top: -1px; left: 0; right: 0;
+    height: 1px; background: var(--accent-gradient);
   }
   .page2-header h2 {
     font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.2rem;
@@ -281,7 +271,7 @@
     display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center;
     background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(77,124,255,0.06) 50%, rgba(168,85,247,0.04) 100%);
     border: 1px solid var(--border-glow); border-radius: 12px;
-    padding: 20px 28px; margin-bottom: 16px; position: relative; overflow: hidden;
+    padding: 16px 24px; margin-bottom: 12px; position: relative; overflow: hidden;
   }
   .the-ask::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0;
@@ -305,13 +295,13 @@
 
   /* Team restructure */
   .team-section {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
-    margin-bottom: 16px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+    margin-bottom: 10px;
   }
   .team-card {
     background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
     border: 1px solid var(--border); border-radius: 10px;
-    padding: 16px 18px; position: relative; overflow: hidden;
+    padding: 14px 16px; position: relative; overflow: hidden;
   }
   .team-card::before {
     content: ''; position: absolute; top: 0; left: 0;
@@ -339,11 +329,11 @@
 
   /* ROI comparison */
   .roi-section {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    margin-bottom: 16px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 10px;
   }
   .roi-card {
-    border-radius: 10px; padding: 18px 20px; position: relative;
+    border-radius: 10px; padding: 14px 18px; position: relative;
   }
   .roi-card.without {
     background: linear-gradient(160deg, rgba(239,68,68,0.06) 0%, var(--surface) 100%);
@@ -375,12 +365,11 @@
 
   /* Context framing */
   .context-bar {
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
-    margin-bottom: 16px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
   }
   .context-item {
     background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-    padding: 14px 16px; text-align: center;
+    padding: 12px 14px; text-align: center;
   }
   .context-item .ctx-value {
     font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem;
@@ -393,10 +382,9 @@
 
   /* Final CTA */
   .final-cta {
-    text-align: center; padding: 20px 32px; border-radius: 12px;
+    text-align: center; padding: 12px 24px; border-radius: 10px;
     background: linear-gradient(135deg, rgba(0,229,255,0.10) 0%, rgba(77,124,255,0.08) 40%, rgba(168,85,247,0.06) 100%);
     border: 1px solid var(--border-glow); position: relative; overflow: hidden;
-    margin-top: auto;
   }
   .final-cta::before {
     content: ''; position: absolute; inset: 0;
@@ -564,6 +552,13 @@
     </div>
   </div>
 
+  <div class="final-cta" style="margin-bottom: 8px;">
+    <div class="big-line">$35k to unlock compounding returns across every team, every title, every quarter.</div>
+    <div class="sub-line">
+      This isn't a bet on AI. It's a <strong>restructure that pays for itself within two quarters</strong> — and compounds from there. The only risk is waiting.
+    </div>
+  </div>
+
   <div class="bottom-section">
     <div class="metrics-row">
       <div class="metric-card">
@@ -595,12 +590,12 @@
           <line x1="40" y1="33" x2="505" y2="33" stroke="#1a1a2e" stroke-width="0.4" stroke-dasharray="4,4"/>
           <text x="36" y="20" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">High</text>
           <text x="36" y="105" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">Low</text>
-          <text x="40" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q1</text>
-          <text x="133" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q2</text>
-          <text x="226" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q3</text>
-          <text x="319" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q4</text>
-          <text x="412" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q5</text>
-          <text x="505" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q6</text>
+          <text x="40" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">26 Q1</text>
+          <text x="133" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">26 Q2</text>
+          <text x="226" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">26 Q3</text>
+          <text x="319" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">26 Q4</text>
+          <text x="412" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">27 Q1</text>
+          <text x="505" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">27 Q2</text>
 
           <path d="M40,18 C110,19 190,20 270,21 C350,22 430,23 505,24 L505,108 L40,108 Z" fill="url(#manualGrad)" opacity="0.12"/>
           <path d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102 L505,108 L40,108 Z" fill="url(#aiGrad)" opacity="0.12"/>
@@ -664,12 +659,6 @@
      ║  PAGE 2 — THE ASK                                    ║
      ╚═══════════════════════════════════════════════════════╝ -->
 <div class="page">
-  <div class="glow-line"></div>
-  <div class="glow-line-bottom"></div>
-  <div class="ambient a1 float"></div>
-  <div class="ambient a2 float-delay"></div>
-  <div class="ambient a3"></div>
-
   <div class="page2-header">
     <h2>The Ask: <span>$35k/year</span></h2>
     <div class="page2-sub">Total investment to unlock compounding AI-driven returns across all Carry1st titles</div>
@@ -680,7 +669,7 @@
     <div class="ask-amount">$35k<small>/yr</small></div>
     <div class="ask-detail">
       <strong>One new hire</strong> + AI platform token costs.<br>
-      That's less than <strong>half the cost of a single mid-level engineer</strong> — to transform how every team at Carry1st builds, ships, and operates games.<br>
+      That's less than <strong>half the cost of a single mid-level engineer</strong> — to transform CarryOn from maintaining Mergedom into <strong>building the infrastructure for new games</strong>.<br>
       <span class="dim">Covers salary for a support hire + annual API/token budget for AI agent infrastructure.</span>
     </div>
   </div>
@@ -712,9 +701,9 @@
     <div class="roi-card without">
       <h4>Without This Investment</h4>
       <ul>
-        <li>Content creation stays <strong>linear</strong> — every feature requires proportional dev time</li>
+        <li>CarryOn stays locked in <strong>Mergedom maintenance mode</strong> — no bandwidth for new titles</li>
+        <li>We likely <strong>wouldn't start before May</strong> on any of the future games</li>
         <li>Live ops remains <strong>manual, slow, expensive</strong></li>
-        <li>QA coverage stays incomplete — bugs ship, players churn</li>
         <li>Competitors adopting AI pull ahead <strong>every quarter</strong></li>
         <li>Denzil is split between maintenance and innovation — <strong>neither gets full attention</strong></li>
       </ul>
@@ -726,20 +715,24 @@
         <li>Existing titles stay maintained — <strong>zero revenue risk</strong></li>
         <li>Content costs trend toward <strong>near-zero marginal</strong> within 2–3 quarters</li>
         <li>Every new tool Denzil builds amplifies <strong>every team, every title</strong></li>
-        <li>Carry1st becomes the <strong>first African studio</strong> with proprietary agentic game dev</li>
+        <li>CarryOn becomes a studio with <strong>proprietary agentic game dev</strong> — a first in the industry</li>
       </ul>
     </div>
   </div>
 
   <!-- Context framing -->
-  <div class="context-bar">
+  <div class="context-bar" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
     <div class="context-item">
       <div class="ctx-value">$35k <span class="hl">vs $80k+</span></div>
       <div class="ctx-label">Cost of this ask vs. a single mid-level engineer hire annually</div>
     </div>
-    <div class="context-item">
-      <div class="ctx-value"><span class="hl">Q2 2026</span></div>
-      <div class="ctx-label">First autonomous pipeline live — content generation or QA agent</div>
+    <div class="context-item" style="border-color: rgba(34,197,94,0.25);">
+      <div class="ctx-value" style="color: var(--green);">With extra dev</div>
+      <div class="ctx-label">Games framework done <strong style="color:var(--green);">Q2</strong>, first prototypes by <strong style="color:var(--green);">Q3 2026</strong></div>
+    </div>
+    <div class="context-item" style="border-color: rgba(239,68,68,0.2);">
+      <div class="ctx-value" style="color: var(--red);">Without extra dev</div>
+      <div class="ctx-label">Framework done <strong style="color:var(--red);">Q3</strong>, new game not until <strong style="color:var(--red);">2027</strong></div>
     </div>
     <div class="context-item">
       <div class="ctx-value"><span class="hl">0</span> revenue risk</div>
@@ -747,14 +740,6 @@
     </div>
   </div>
 
-  <!-- Final CTA -->
-  <div class="final-cta">
-    <div class="big-line">$35k to unlock compounding returns across every team, every title, every quarter.</div>
-    <div class="sub-line">
-      This isn't a bet on AI. It's a <strong>restructure that pays for itself within two quarters</strong> — and compounds from there.<br>
-      The only risk is waiting.
-    </div>
-  </div>
 
 </div>
 
