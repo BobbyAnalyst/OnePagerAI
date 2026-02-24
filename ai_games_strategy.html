@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic AI Strategy — Mobile Games</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #07070c;
+    --surface: #0e0e18;
+    --surface-raised: #131320;
+    --border: #1a1a2e;
+    --border-glow: rgba(0, 229, 255, 0.18);
+    --cyan: #00e5ff;
+    --cyan-dim: #00a5b8;
+    --cyan-glow: rgba(0, 229, 255, 0.25);
+    --blue: #4d7cff;
+    --purple: #a855f7;
+    --magenta: #e040fb;
+    --text: #eaeaf0;
+    --text-mid: #b0b0c0;
+    --text-dim: #8888a0;
+    --accent-gradient: linear-gradient(135deg, #00e5ff 0%, #4d7cff 40%, #a855f7 75%, #e040fb 100%);
+  }
+
+  html { font-size: 11.5px; }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.45;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    padding: 18px 22px 14px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Ambient gradient meshes ── */
+  .ambient { position: absolute; pointer-events: none; z-index: 0; border-radius: 50%; filter: blur(60px); }
+  .ambient.a1 { width: 450px; height: 450px; top: -140px; right: -100px; background: radial-gradient(circle, rgba(0,229,255,0.10) 0%, transparent 70%); }
+  .ambient.a2 { width: 380px; height: 380px; bottom: -80px; left: -80px; background: radial-gradient(circle, rgba(77,124,255,0.08) 0%, transparent 70%); }
+  .ambient.a3 { width: 300px; height: 300px; top: 38%; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 70%); }
+  .ambient.a4 { width: 220px; height: 220px; top: 8%; left: 8%; background: radial-gradient(circle, rgba(224,64,251,0.04) 0%, transparent 70%); }
+
+  /* Dot grid overlay */
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 22px 22px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .page > *:not(.ambient):not(.glow-line):not(.glow-line-bottom):not(.corner-accent) { position: relative; z-index: 1; }
+
+  /* ── Corner accents ── */
+  .corner-accent { position: absolute; z-index: 0; pointer-events: none; }
+  .corner-accent.tl { top: 0; left: 0; }
+  .corner-accent.br { bottom: 0; right: 0; transform: rotate(180deg); }
+
+  /* ── Glow lines ── */
+  .glow-line {
+    position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+    background: var(--accent-gradient); z-index: 10;
+  }
+  .glow-line::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 10px;
+    background: var(--accent-gradient); filter: blur(14px); opacity: 0.5;
+  }
+  .glow-line::after {
+    content: ''; position: absolute; top: 0; left: -40%; width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+    animation: shimmer 2.5s ease-in-out infinite;
+  }
+  @keyframes shimmer { 0% { left: -40%; } 100% { left: 140%; } }
+  .glow-line-bottom {
+    position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+    background: var(--accent-gradient); z-index: 10; opacity: 0.4;
+  }
+
+  /* ── Header ── */
+  .header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 14px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border); position: relative;
+  }
+  .header::after {
+    content: ''; position: absolute; bottom: -1px; left: 0;
+    width: 200px; height: 1px; background: var(--accent-gradient);
+  }
+  .header-left h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.65rem;
+    letter-spacing: -0.04em; background: var(--accent-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.1; filter: drop-shadow(0 0 30px rgba(0,229,255,0.15));
+  }
+  .header-left .subtitle {
+    font-size: 1rem; color: var(--text-dim); margin-top: 3px; font-weight: 500; letter-spacing: 0.02em;
+  }
+  .header-right { text-align: right; padding-bottom: 4px; }
+  .header-right .label {
+    font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.12em;
+    font-size: 0.68rem; display: inline-block; padding: 3px 10px;
+    border: 1px solid rgba(0,229,255,0.2); border-radius: 4px;
+    background: rgba(0,229,255,0.05); margin-bottom: 4px;
+  }
+  .header-right .date { font-size: 0.82rem; color: var(--text-dim); }
+
+  /* ── Thesis ── */
+  .thesis {
+    background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(77,124,255,0.06) 50%, rgba(168,85,247,0.04) 100%);
+    border: 1px solid var(--border-glow); border-radius: 10px;
+    padding: 13px 22px; margin-bottom: 14px;
+    font-size: 1rem; font-weight: 500; color: var(--text);
+    text-align: center; line-height: 1.5; position: relative; overflow: hidden;
+  }
+  .thesis::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: var(--accent-gradient); opacity: 0.5;
+  }
+  .thesis strong { color: var(--cyan); }
+
+  /* ── Pillars ── */
+  .pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; flex-shrink: 0;
+  }
+
+  .pillar {
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 13px 15px 11px; position: relative; overflow: hidden;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .pillar::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%; border-radius: 10px 0 0 10px;
+  }
+  .pillar:nth-child(1)::before { background: var(--cyan); box-shadow: 0 0 14px var(--cyan-glow); }
+  .pillar:nth-child(2)::before { background: var(--blue); box-shadow: 0 0 14px rgba(77,124,255,0.25); }
+  .pillar:nth-child(3)::before { background: var(--purple); box-shadow: 0 0 14px rgba(168,85,247,0.25); }
+  .pillar:nth-child(4)::before { background: #22c55e; box-shadow: 0 0 14px rgba(34,197,94,0.25); }
+  .pillar:nth-child(5)::before { background: #fbbf24; box-shadow: 0 0 14px rgba(251,191,36,0.25); }
+  .pillar:hover { border-color: var(--border-glow); box-shadow: 0 0 24px rgba(0,229,255,0.04); }
+
+  .pillar-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+
+  .pillar-icon {
+    width: 34px; height: 34px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .pillar-icon svg { width: 18px; height: 18px; }
+  .pillar-icon.p1 { background: rgba(0,229,255,0.12); box-shadow: 0 0 16px rgba(0,229,255,0.1); }
+  .pillar-icon.p1 svg { fill: var(--cyan); stroke: var(--cyan); }
+  .pillar-icon.p2 { background: rgba(77,124,255,0.12); box-shadow: 0 0 16px rgba(77,124,255,0.1); }
+  .pillar-icon.p2 svg { fill: var(--blue); stroke: var(--blue); }
+  .pillar-icon.p3 { background: rgba(168,85,247,0.12); box-shadow: 0 0 16px rgba(168,85,247,0.1); }
+  .pillar-icon.p3 svg { fill: var(--purple); stroke: var(--purple); }
+  .pillar-icon.p4 { background: rgba(34,197,94,0.12); box-shadow: 0 0 16px rgba(34,197,94,0.1); }
+  .pillar-icon.p4 svg { fill: #22c55e; stroke: #22c55e; }
+  .pillar-icon.p5 { background: rgba(251,191,36,0.12); box-shadow: 0 0 16px rgba(251,191,36,0.1); }
+  .pillar-icon.p5 svg { fill: #fbbf24; stroke: #fbbf24; }
+
+  .pillar-title {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em;
+  }
+  .pillar-title .num {
+    color: var(--text-dim); font-weight: 600; font-size: 0.76rem; margin-right: 3px; opacity: 0.5;
+  }
+
+  .pillar ul { list-style: none; }
+  .pillar li {
+    font-size: 0.86rem; color: var(--text-mid); padding: 2.5px 0 2.5px 14px;
+    position: relative; line-height: 1.4;
+  }
+  .pillar li::before {
+    content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+  .pillar:nth-child(1) li::before { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
+  .pillar:nth-child(2) li::before { background: var(--blue); box-shadow: 0 0 6px rgba(77,124,255,0.3); }
+  .pillar:nth-child(3) li::before { background: var(--purple); box-shadow: 0 0 6px rgba(168,85,247,0.3); }
+  .pillar:nth-child(4) li::before { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.3); }
+
+  .pillar li strong { color: var(--text); font-weight: 600; }
+
+  .pillar .metric {
+    display: inline-block; margin-top: 7px; font-size: 0.78rem; font-weight: 700;
+    color: var(--cyan); background: rgba(0,229,255,0.07);
+    border: 1px solid rgba(0,229,255,0.12); padding: 3px 11px; border-radius: 6px;
+  }
+
+  /* Pillar 5 — full width */
+  .pillar.full-width {
+    grid-column: 1 / -1; display: grid;
+    grid-template-columns: 155px 1fr 1fr 1fr;
+    gap: 14px; align-items: start; padding: 13px 18px;
+  }
+  .pillar.full-width .pillar-header { margin-bottom: 0; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .pillar.full-width .fw-col {
+    font-size: 0.86rem; color: var(--text-mid); line-height: 1.4;
+    padding-left: 12px; border-left: 2px solid rgba(251,191,36,0.2);
+  }
+  .pillar.full-width .fw-col .fw-label {
+    font-weight: 700; color: var(--text); font-size: 0.88rem; margin-bottom: 2px;
+  }
+
+  /* ══════════════════════════════════════════
+     BOTTOM SECTION: Chart + Metrics + CTA
+     ══════════════════════════════════════════ */
+
+  .bottom-section {
+    flex: 1; min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 8px;
+  }
+
+  /* ── Chart panel ── */
+  .chart-panel {
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 16px 10px; position: relative; overflow: hidden;
+    min-height: 0;
+  }
+  .chart-panel::before {
+    content: ''; position: absolute; top: -1px; left: 15%; right: 15%;
+    height: 1px; background: var(--accent-gradient); opacity: 0.3;
+  }
+  .chart-panel h3 {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.92rem;
+    margin-bottom: 4px; color: var(--text);
+  }
+  .chart-wrap {
+    width: 100%; height: calc(100% - 36px); /* minus title + legend */
+  }
+  .chart-svg {
+    width: 100%; height: 100%; display: block;
+  }
+  .chart-legend {
+    display: flex; gap: 18px; margin-top: 3px; font-size: 0.74rem;
+  }
+  .chart-legend span { display: flex; align-items: center; gap: 5px; color: var(--text-dim); }
+  .chart-legend .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .dot.manual { background: #444; border: 1px solid #666; }
+  .dot.ai { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
+
+  /* ── Metrics row ── */
+  .metrics-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  }
+  .metric-card {
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 10px; text-align: center; transition: border-color 0.3s;
+  }
+  .metric-card:hover { border-color: var(--border-glow); }
+  .metric-value {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.65rem;
+    background: var(--accent-gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.15; margin-bottom: 4px;
+    filter: drop-shadow(0 0 10px rgba(0,229,255,0.18));
+  }
+  .metric-label { font-size: 0.78rem; color: var(--text-dim); line-height: 1.35; }
+
+  /* ── CTA ── */
+  .cta {
+    text-align: center; padding: 14px 32px; border-radius: 10px;
+    background: linear-gradient(135deg, rgba(0,229,255,0.10) 0%, rgba(77,124,255,0.08) 40%, rgba(168,85,247,0.06) 100%);
+    border: 1px solid var(--border-glow); position: relative; overflow: hidden;
+  }
+  .cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.04), transparent);
+    animation: ctaPulse 4s ease-in-out infinite;
+  }
+  @keyframes ctaPulse { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+  .cta p {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.98rem;
+    color: var(--text); line-height: 1.5; position: relative;
+  }
+  .cta p strong { color: var(--cyan); }
+  .cta p em { font-style: italic; color: var(--text-dim); }
+
+  /* ── Animations ── */
+  @keyframes drawLine { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+  .animate-path { stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawLine 2s ease-out forwards; }
+  .animate-path-delayed { stroke-dasharray: 600; stroke-dashoffset: 600; animation: drawLine 2s ease-out 0.4s forwards; }
+  @keyframes pulseLine { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.6; } }
+  @keyframes floatOrb { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .float { animation: floatOrb 6s ease-in-out infinite; }
+  .float-delay { animation: floatOrb 6s ease-in-out 2s infinite; }
+
+  /* ── Print — keep dark theme ── */
+  @media print {
+    html { font-size: 11px; }
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { padding: 12px 16px 10px; height: auto; }
+    .ambient, .glow-line-bottom, .corner-accent { display: none; }
+    .glow-line { background: var(--accent-gradient); }
+    .glow-line::before, .glow-line::after { display: none; }
+    .page::before { display: none; }
+    .pillar { break-inside: avoid; }
+    .animate-path, .animate-path-delayed { animation: none; stroke-dasharray: none; stroke-dashoffset: 0; }
+  }
+  @page { size: A4; margin: 5mm; }
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- Decorative layers -->
+  <div class="glow-line"></div>
+  <div class="glow-line-bottom"></div>
+  <div class="ambient a1 float"></div>
+  <div class="ambient a2 float-delay"></div>
+  <div class="ambient a3"></div>
+  <div class="ambient a4"></div>
+
+  <svg class="corner-accent tl" width="80" height="80" viewBox="0 0 80 80" fill="none">
+    <path d="M0 0 L45 0" stroke="url(#cg)" stroke-width="1" opacity="0.35"/>
+    <path d="M0 0 L0 45" stroke="url(#cg2)" stroke-width="1" opacity="0.35"/>
+    <circle cx="0" cy="0" r="3" fill="#00e5ff" opacity="0.5"/>
+    <defs>
+      <linearGradient id="cg"><stop stop-color="#00e5ff"/><stop offset="1" stop-color="transparent"/></linearGradient>
+      <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#00e5ff"/><stop offset="1" stop-color="transparent"/></linearGradient>
+    </defs>
+  </svg>
+  <svg class="corner-accent br" width="80" height="80" viewBox="0 0 80 80" fill="none">
+    <path d="M0 0 L45 0" stroke="url(#cg3)" stroke-width="1" opacity="0.35"/>
+    <path d="M0 0 L0 45" stroke="url(#cg4)" stroke-width="1" opacity="0.35"/>
+    <circle cx="0" cy="0" r="3" fill="#a855f7" opacity="0.5"/>
+    <defs>
+      <linearGradient id="cg3"><stop stop-color="#a855f7"/><stop offset="1" stop-color="transparent"/></linearGradient>
+      <linearGradient id="cg4" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="transparent"/></linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ════ HEADER ════ -->
+  <header class="header">
+    <div class="header-left">
+      <h1>Agentic AI for Mobile Games</h1>
+      <div class="subtitle">Strategic Investment Thesis — Executive Summary</div>
+    </div>
+    <div class="header-right">
+      <div class="label">Confidential</div><br>
+      <span class="date">Q1 2026 · Strategy & Innovation</span>
+    </div>
+  </header>
+
+  <!-- ════ THESIS ════ -->
+  <div class="thesis">
+    Agentic AI is not a feature — it is <strong>infrastructure that compounds</strong>. Every dollar invested today reduces costs, accelerates output, and deepens competitive moats across <strong>every team, every title, every quarter</strong>.
+  </div>
+
+  <!-- ════ 5 PILLARS ════ -->
+  <div class="pillars">
+
+    <!-- P1: Exponential Productivity (#1, #2, #3, #9) -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon p1">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="pillar-title"><span class="num">01</span> Exponential Productivity</div>
+      </div>
+      <ul>
+        <li><strong>Non-linear output growth</strong> — agents chain generation → validation → balancing → testing autonomously</li>
+        <li><strong>Cross-team tooling leverage</strong> — one AI lead amplifies design, art, engineering, QA & live ops simultaneously</li>
+        <li><strong>Rapid prototyping</strong> — reduce time-to-first-playable, accelerating greenlight decisions</li>
+        <li><strong>Senior talent freed</strong> — balancing tables, reward curves & progression automated; designers focus on creative work</li>
+      </ul>
+      <div class="metric">→ 10× faster iteration loops</div>
+    </div>
+
+    <!-- P2: Scalable Content & Live Ops (#4, #5, #12) -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon p2">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
+        </div>
+        <div class="pillar-title"><span class="num">02</span> Scalable Content & Live Ops</div>
+      </div>
+      <ul>
+        <li><strong>Procedural + agentic pipelines</strong> — scalable levels, quests, dialogue & puzzles critical for F2P retention</li>
+        <li><strong>Autonomous live ops</strong> — agents design, test & deploy event variations and economy tweaks with minimal intervention</li>
+        <li><strong>Near-zero marginal cost</strong> — once infra is built, incremental content costs collapse vs. manual pipelines</li>
+      </ul>
+      <div class="metric">→ Near-zero marginal content cost</div>
+    </div>
+
+    <!-- P3: Player Intelligence & Growth (#6, #7, #8, #15) -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon p3">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6" opacity="0.5"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+        <div class="pillar-title"><span class="num">03</span> Player Intelligence & Growth</div>
+      </div>
+      <ul>
+        <li><strong>Dynamic personalization</strong> — adaptive difficulty, quest generation & narrative per player segment; improves LTV</li>
+        <li><strong>UA economics</strong> — AI-iterated onboarding & FTUE flows improve D1/D7 retention, directly reducing effective CPI</li>
+        <li><strong>Rapid experimentation</strong> — agents propose hypotheses, generate variants & prep deployment-ready builds autonomously</li>
+        <li><strong>Data-driven balancing</strong> — agents ingest telemetry and propose economy corrections, closing insight-to-action lag</li>
+      </ul>
+      <div class="metric">→ 1,000s of simulated playtests</div>
+    </div>
+
+    <!-- P4: Quality & Risk Reduction (#10, #16, #18) -->
+    <div class="pillar">
+      <div class="pillar-header">
+        <div class="pillar-icon p4">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="pillar-title"><span class="num">04</span> Quality & Risk Reduction</div>
+      </div>
+      <ul>
+        <li><strong>QA at scale</strong> — autonomous agents simulate 1,000s of gameplay sessions, catching bugs, exploits & economy breaks early</li>
+        <li><strong>Knowledge encoding</strong> — design philosophy, best practices & historical learnings embedded in reusable agent frameworks</li>
+        <li><strong>Cross-discipline alignment</strong> — agent systems formalize workflows, reducing friction between product, engineering & design</li>
+      </ul>
+      <div class="metric">→ 90%+ regression coverage, 24/7</div>
+    </div>
+
+    <!-- P5: Strategic Advantage (#11, #19, #20) -->
+    <div class="pillar full-width">
+      <div class="pillar-header">
+        <div class="pillar-icon p5">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="pillar-title"><span class="num">05</span> Strategic Advantage</div>
+      </div>
+      <div class="fw-col">
+        <div class="fw-label">Competitive Moat</div>
+        Proprietary agent pipelines become <strong>internal IP</strong> — a defensible tech advantage vs. studios relying on off-the-shelf tools, compounding over time
+      </div>
+      <div class="fw-col">
+        <div class="fw-label">Industry Positioning</div>
+        Agentic AI will reshape pipelines industry-wide — <strong>early adoption</strong> positions the studio to define the next era of game economics
+      </div>
+      <div class="fw-col">
+        <div class="fw-label">Monetization Optionality</div>
+        A robust internal AI toolchain can later be <strong>licensed, spun off</strong>, or used to attract strategic partnerships & new revenue streams
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       BOTTOM: Chart + Metrics + CTA
+       ══════════════════════════════════════ -->
+  <div class="bottom-section">
+
+    <!-- Metrics row -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-value">3–5×</div>
+        <div class="metric-label">Content output per developer</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">60%</div>
+        <div class="metric-label">Faster time-to-playable</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">30–50%</div>
+        <div class="metric-label">Lower CPI via AI-optimized UA</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">24/7</div>
+        <div class="metric-label">Autonomous QA & live ops</div>
+      </div>
+    </div>
+
+    <!-- Chart panel -->
+    <div class="chart-panel">
+      <h3>Impact Trajectory — Cost per Feature Shipped</h3>
+      <div class="chart-wrap">
+        <svg class="chart-svg" viewBox="0 0 520 130" preserveAspectRatio="xMidYMid meet" fill="none">
+          <!-- Axes -->
+          <line x1="40" y1="8" x2="40" y2="108" stroke="#1a1a2e" stroke-width="1"/>
+          <line x1="40" y1="108" x2="505" y2="108" stroke="#1a1a2e" stroke-width="1"/>
+          <line x1="40" y1="83" x2="505" y2="83" stroke="#1a1a2e" stroke-width="0.4" stroke-dasharray="4,4"/>
+          <line x1="40" y1="58" x2="505" y2="58" stroke="#1a1a2e" stroke-width="0.4" stroke-dasharray="4,4"/>
+          <line x1="40" y1="33" x2="505" y2="33" stroke="#1a1a2e" stroke-width="0.4" stroke-dasharray="4,4"/>
+
+          <!-- Y labels -->
+          <text x="36" y="20" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">High</text>
+          <text x="36" y="105" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">Low</text>
+
+          <!-- X labels -->
+          <text x="40" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q1</text>
+          <text x="133" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q2</text>
+          <text x="226" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q3</text>
+          <text x="319" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q4</text>
+          <text x="412" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q5</text>
+          <text x="505" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q6</text>
+
+          <!-- Area fills -->
+          <path d="M40,18 C110,19 190,20 270,21 C350,22 430,23 505,24 L505,108 L40,108 Z" fill="url(#manualGrad)" opacity="0.12"/>
+          <path d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102 L505,108 L40,108 Z" fill="url(#aiGrad)" opacity="0.12"/>
+
+          <!-- Manual line — flat near top (high cost stays high) -->
+          <path d="M40,18 C110,19 190,20 270,21 C350,22 430,23 505,24"
+                stroke="#555" stroke-width="2" fill="none" stroke-linecap="round" class="animate-path"/>
+
+          <!-- AI line — drops down (cost plummets) -->
+          <path id="aiPath" d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102"
+                stroke="url(#aiStroke)" stroke-width="2.5" fill="none" stroke-linecap="round" class="animate-path-delayed"/>
+          <!-- AI glow -->
+          <path d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102"
+                stroke="url(#aiStroke)" stroke-width="10" fill="none" opacity="0.1" stroke-linecap="round"/>
+
+          <!-- Heartbeat pulse dot traveling along AI line -->
+          <!-- Outer glow ring -->
+          <circle r="8" fill="none" stroke="#00e5ff" stroke-width="1" opacity="0" filter="url(#pulseGlow)">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+              <mpath href="#aiPath"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;0.4;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+            <animate attributeName="r" values="5;10;5" dur="3s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+          <!-- Bright core dot -->
+          <circle r="3" fill="#00e5ff" opacity="0">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+              <mpath href="#aiPath"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+          <!-- Hot white center -->
+          <circle r="1.5" fill="#fff" opacity="0">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+              <mpath href="#aiPath"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+
+          <!-- Divergence pulse at Q4 -->
+          <line x1="319" y1="22" x2="319" y2="72" stroke="rgba(0,229,255,0.5)" stroke-width="1.5" stroke-dasharray="3,3" style="animation: pulseLine 2s ease-in-out infinite;"/>
+          <line x1="319" y1="22" x2="319" y2="72" stroke="rgba(0,229,255,0.15)" stroke-width="6" style="animation: pulseLine 2s ease-in-out infinite; filter: blur(4px);"/>
+          <rect x="326" y="36" width="86" height="24" rx="4" fill="rgba(0,229,255,0.06)" stroke="rgba(0,229,255,0.15)" stroke-width="0.5"/>
+          <text x="369" y="46" fill="#00e5ff" font-size="7.5" font-family="Syne" font-weight="700" text-anchor="middle">Divergence</text>
+          <text x="369" y="56" fill="#8888a0" font-size="6.5" font-family="DM Sans" text-anchor="middle">widens each quarter</text>
+
+          <!-- End dots + labels -->
+          <circle cx="505" cy="24" r="3.5" fill="#555" stroke="#444" stroke-width="1"/>
+          <text x="497" y="18" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">Manual</text>
+          <circle cx="505" cy="102" r="4" fill="#00e5ff" opacity="0.9"/>
+          <circle cx="505" cy="102" r="9" fill="none" stroke="#00e5ff" stroke-width="0.5" opacity="0.3"/>
+          <text x="495" y="100" fill="#00e5ff" font-size="7" font-family="DM Sans" font-weight="600" text-anchor="end">AI-Aug</text>
+
+          <defs>
+            <filter id="pulseGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <linearGradient id="aiStroke" x1="40" y1="0" x2="505" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#00e5ff"/><stop offset="60%" stop-color="#4d7cff"/><stop offset="100%" stop-color="#a855f7"/>
+            </linearGradient>
+            <linearGradient id="aiGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.7"/><stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="manualGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#555" stop-opacity="0.7"/><stop offset="100%" stop-color="#555" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="chart-legend">
+        <span><span class="dot manual"></span> Manual Pipeline</span>
+        <span><span class="dot ai"></span> AI-Augmented Pipeline</span>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>
