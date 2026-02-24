@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,6 +31,43 @@
     --accent-gradient: linear-gradient(135deg, #00e5ff 0%, #4d7cff 40%, #a855f7 75%, #e040fb 100%);
   }
 
+  [data-theme="light"] {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface-raised: #f9fafb;
+    --border: #d8dce3;
+    --border-glow: rgba(0, 140, 200, 0.18);
+    --cyan: #0088aa;
+    --cyan-dim: #006680;
+    --cyan-glow: rgba(0, 136, 170, 0.2);
+    --blue: #2b5cd6;
+    --purple: #7c3aed;
+    --magenta: #c026d3;
+    --green: #16a34a;
+    --gold: #d97706;
+    --red: #dc2626;
+    --text: #1a1a2e;
+    --text-mid: #4a4a60;
+    --text-dim: #7a7a90;
+    --accent-gradient: linear-gradient(135deg, #0088aa 0%, #2b5cd6 40%, #7c3aed 75%, #c026d3 100%);
+  }
+  [data-theme="light"] .page { background: var(--bg); }
+  [data-theme="light"] .page::before { background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px); }
+  [data-theme="light"] .ambient { opacity: 0.4; }
+  [data-theme="light"] .glow-line::before { opacity: 0.3; }
+  [data-theme="light"] .header-left h1 { filter: none; }
+  [data-theme="light"] .metric-value { filter: none; }
+  [data-theme="light"] .ask-amount { filter: none; }
+  [data-theme="light"] .page, [data-theme="light"] .pillar,
+  [data-theme="light"] .metric-card, [data-theme="light"] .chart-panel,
+  [data-theme="light"] .team-card, [data-theme="light"] .roi-card,
+  [data-theme="light"] .context-item, [data-theme="light"] .thesis,
+  [data-theme="light"] .the-ask, [data-theme="light"] .final-cta {
+    transition: background 0.3s, border-color 0.3s, color 0.3s;
+  }
+  [data-theme="light"] .pillar li::before { box-shadow: none; }
+  [data-theme="light"] .dot.ai { box-shadow: none; }
+
   html { font-size: 11.5px; }
 
   body {
@@ -39,6 +76,7 @@
     color: var(--text);
     line-height: 1.55;
     overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
   }
 
   /* ── Page shell ── */
@@ -101,13 +139,24 @@
   .header-left .subtitle {
     font-size: 0.95rem; color: var(--text-dim); margin-top: 2px; font-weight: 500;
   }
-  .header-right { text-align: right; padding-bottom: 4px; }
+  .header-right { text-align: right; padding-bottom: 4px; display: flex; align-items: center; gap: 8px; }
   .header-right .label {
     font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.12em;
     font-size: 0.65rem; display: inline-block; padding: 3px 10px;
     border: 1px solid rgba(0,229,255,0.2); border-radius: 4px;
-    background: rgba(0,229,255,0.05); margin-bottom: 4px;
+    background: rgba(0,229,255,0.05);
   }
+  .theme-toggle {
+    width: 36px; height: 20px; border-radius: 10px; border: 1px solid var(--border);
+    background: var(--surface); cursor: pointer; position: relative; flex-shrink: 0;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .theme-toggle::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--cyan); transition: transform 0.3s;
+  }
+  [data-theme="light"] .theme-toggle::after { transform: translateX(16px); }
   .header-right .date { font-size: 0.8rem; color: var(--text-dim); }
 
   /* ── Thesis ── */
@@ -420,7 +469,7 @@
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .page { padding: 12px 16px 10px; height: auto; }
     .page + .page { page-break-before: always; }
-    .ambient, .glow-line-bottom, .corner-accent { display: none; }
+    .ambient, .glow-line-bottom, .corner-accent, .theme-toggle { display: none; }
     .glow-line { background: var(--accent-gradient); }
     .glow-line::before, .glow-line::after { display: none; }
     .page::before { display: none; }
@@ -468,8 +517,13 @@
       <div class="subtitle">Strategic Investment Thesis — Carry1st</div>
     </div>
     <div class="header-right">
-      <div class="label">Confidential</div><br>
-      <span class="date">Q1 2026 · Strategy & Innovation</span>
+      <div style="text-align: right;">
+        <div style="display: flex; align-items: center; gap: 8px; justify-content: flex-end; margin-bottom: 4px;">
+          <div class="label">Confidential</div>
+          <button class="theme-toggle" onclick="document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light')" title="Toggle light/dark theme"></button>
+        </div>
+        <span class="date">Q1 2026 · Strategy & Innovation</span>
+      </div>
     </div>
   </header>
 
