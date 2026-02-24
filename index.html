@@ -477,6 +477,49 @@
   }
   .clear-ask .roi-note strong { color: var(--text); font-style: normal; }
 
+  /* Why Now objection handler */
+  .why-now {
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin-top: 10px; position: relative; overflow: hidden;
+  }
+  .why-now::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px; border-radius: 10px 10px 0 0;
+    background: var(--red);
+  }
+  .why-now h4 {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.95rem;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .why-now h4 span { color: var(--text-dim); font-weight: 500; font-style: italic; }
+  .why-now-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .why-now-col h5 {
+    font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+  .why-now-col.delay h5 { color: var(--red); }
+  .why-now-col.now h5 { color: var(--green); }
+  .why-now-col ul { list-style: none; }
+  .why-now-col li {
+    font-size: 0.82rem; color: var(--text-mid); line-height: 1.5;
+    padding: 1px 0 1px 14px; position: relative;
+  }
+  .why-now-col li::before {
+    content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 4px; height: 4px; border-radius: 50%;
+  }
+  .why-now-col.delay li::before { background: var(--red); }
+  .why-now-col.now li::before { background: var(--green); }
+  .why-now-col li strong { color: var(--text); font-weight: 600; }
+  .why-now .bottom-line {
+    margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border);
+    font-size: 0.85rem; color: var(--text); font-weight: 600;
+  }
+  .why-now .bottom-line strong { color: var(--cyan); }
+
   /* Closing statement */
   .closing {
     text-align: center; padding: 16px 24px; margin-top: 12px;
@@ -886,6 +929,33 @@
       </div>
     </div>
     <div class="roi-note">Even one incremental scalable game over 2–3 years justifies <strong>30–40× ROI</strong>.</div>
+  </div>
+
+  <!-- Why Now — preempt the objection -->
+  <div class="why-now">
+    <h4>"We'd get there eventually without the hire" — <span>here's what that costs</span></h4>
+    <div class="why-now-grid">
+      <div class="why-now-col delay">
+        <h5>Wait 6–12 months</h5>
+        <ul>
+          <li>Denzil stays split between <strong>maintenance and AI</strong> — both suffer</li>
+          <li>AI tooling progresses at <strong>~20% capacity</strong> instead of 100%</li>
+          <li>Every quarter of delay = <strong>one fewer prototype cycle</strong></li>
+          <li>Competitors investing now build <strong>compounding leads</strong></li>
+          <li>First new game pushed to <strong>2027</strong></li>
+        </ul>
+      </div>
+      <div class="why-now-col now">
+        <h5>Start now</h5>
+        <ul>
+          <li>Denzil delivers AI value <strong>from week one</strong> — A/B tests, automation, tooling</li>
+          <li>Gains <strong>compound each quarter</strong> — the earlier we start, the wider the gap</li>
+          <li>First prototypes with AI assistance by <strong>Q3 2026</strong></li>
+          <li>The $35k isn't the cost — the cost is the <strong>$420k/year we leave on the table</strong> by waiting</li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom-line">This isn't about <em>if</em> we adopt AI. It's about whether we start compounding <strong>now</strong> or give that advantage to someone else.</div>
   </div>
 
   <!-- Closing -->
