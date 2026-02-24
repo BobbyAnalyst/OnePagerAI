@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agentic AI Strategy — Mobile Games</title>
+<title>Agentic AI Strategy — Carry1st</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -22,23 +22,25 @@
     --blue: #4d7cff;
     --purple: #a855f7;
     --magenta: #e040fb;
+    --green: #22c55e;
+    --gold: #fbbf24;
+    --red: #ef4444;
     --text: #eaeaf0;
     --text-mid: #b0b0c0;
     --text-dim: #8888a0;
     --accent-gradient: linear-gradient(135deg, #00e5ff 0%, #4d7cff 40%, #a855f7 75%, #e040fb 100%);
   }
 
-  html { font-size: 11.5px; }
+  html { font-size: 11.2px; }
 
   body {
     font-family: 'DM Sans', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
     line-height: 1.45;
-    min-height: 100vh;
-    overflow-x: hidden;
   }
 
+  /* ── Page shell ── */
   .page {
     width: 210mm;
     height: 297mm;
@@ -50,33 +52,27 @@
     display: flex;
     flex-direction: column;
   }
+  .page + .page { page-break-before: always; }
 
-  /* ── Ambient gradient meshes ── */
+  /* ── Ambient ── */
   .ambient { position: absolute; pointer-events: none; z-index: 0; border-radius: 50%; filter: blur(60px); }
   .ambient.a1 { width: 450px; height: 450px; top: -140px; right: -100px; background: radial-gradient(circle, rgba(0,229,255,0.10) 0%, transparent 70%); }
   .ambient.a2 { width: 380px; height: 380px; bottom: -80px; left: -80px; background: radial-gradient(circle, rgba(77,124,255,0.08) 0%, transparent 70%); }
   .ambient.a3 { width: 300px; height: 300px; top: 38%; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 70%); }
   .ambient.a4 { width: 220px; height: 220px; top: 8%; left: 8%; background: radial-gradient(circle, rgba(224,64,251,0.04) 0%, transparent 70%); }
 
-  /* Dot grid overlay */
   .page::before {
-    content: '';
-    position: absolute;
-    inset: 0;
+    content: ''; position: absolute; inset: 0;
     background-image: radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
-    background-size: 22px 22px;
-    z-index: 0;
-    pointer-events: none;
+    background-size: 22px 22px; z-index: 0; pointer-events: none;
   }
 
   .page > *:not(.ambient):not(.glow-line):not(.glow-line-bottom):not(.corner-accent) { position: relative; z-index: 1; }
 
-  /* ── Corner accents ── */
   .corner-accent { position: absolute; z-index: 0; pointer-events: none; }
   .corner-accent.tl { top: 0; left: 0; }
   .corner-accent.br { bottom: 0; right: 0; transform: rotate(180deg); }
 
-  /* ── Glow lines ── */
   .glow-line {
     position: absolute; top: 0; left: 0; width: 100%; height: 3px;
     background: var(--accent-gradient); z-index: 10;
@@ -99,7 +95,7 @@
   /* ── Header ── */
   .header {
     display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 14px; padding-bottom: 12px;
+    margin-bottom: 12px; padding-bottom: 10px;
     border-bottom: 1px solid var(--border); position: relative;
   }
   .header::after {
@@ -107,29 +103,29 @@
     width: 200px; height: 1px; background: var(--accent-gradient);
   }
   .header-left h1 {
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.65rem;
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.5rem;
     letter-spacing: -0.04em; background: var(--accent-gradient);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     line-height: 1.1; filter: drop-shadow(0 0 30px rgba(0,229,255,0.15));
   }
   .header-left .subtitle {
-    font-size: 1rem; color: var(--text-dim); margin-top: 3px; font-weight: 500; letter-spacing: 0.02em;
+    font-size: 0.95rem; color: var(--text-dim); margin-top: 2px; font-weight: 500;
   }
   .header-right { text-align: right; padding-bottom: 4px; }
   .header-right .label {
     font-weight: 700; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.12em;
-    font-size: 0.68rem; display: inline-block; padding: 3px 10px;
+    font-size: 0.65rem; display: inline-block; padding: 3px 10px;
     border: 1px solid rgba(0,229,255,0.2); border-radius: 4px;
     background: rgba(0,229,255,0.05); margin-bottom: 4px;
   }
-  .header-right .date { font-size: 0.82rem; color: var(--text-dim); }
+  .header-right .date { font-size: 0.8rem; color: var(--text-dim); }
 
   /* ── Thesis ── */
   .thesis {
     background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(77,124,255,0.06) 50%, rgba(168,85,247,0.04) 100%);
     border: 1px solid var(--border-glow); border-radius: 10px;
-    padding: 13px 22px; margin-bottom: 14px;
-    font-size: 1rem; font-weight: 500; color: var(--text);
+    padding: 11px 20px; margin-bottom: 12px;
+    font-size: 0.95rem; font-weight: 500; color: var(--text);
     text-align: center; line-height: 1.5; position: relative; overflow: hidden;
   }
   .thesis::before {
@@ -140,14 +136,12 @@
 
   /* ── Pillars ── */
   .pillars {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; flex-shrink: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; flex-shrink: 0;
   }
-
   .pillar {
     background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
     border: 1px solid var(--border); border-radius: 10px;
-    padding: 13px 15px 11px; position: relative; overflow: hidden;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    padding: 11px 13px 9px; position: relative; overflow: hidden;
   }
   .pillar::before {
     content: ''; position: absolute; top: 0; left: 0;
@@ -156,150 +150,272 @@
   .pillar:nth-child(1)::before { background: var(--cyan); box-shadow: 0 0 14px var(--cyan-glow); }
   .pillar:nth-child(2)::before { background: var(--blue); box-shadow: 0 0 14px rgba(77,124,255,0.25); }
   .pillar:nth-child(3)::before { background: var(--purple); box-shadow: 0 0 14px rgba(168,85,247,0.25); }
-  .pillar:nth-child(4)::before { background: #22c55e; box-shadow: 0 0 14px rgba(34,197,94,0.25); }
-  .pillar:nth-child(5)::before { background: #fbbf24; box-shadow: 0 0 14px rgba(251,191,36,0.25); }
-  .pillar:hover { border-color: var(--border-glow); box-shadow: 0 0 24px rgba(0,229,255,0.04); }
+  .pillar:nth-child(4)::before { background: var(--green); box-shadow: 0 0 14px rgba(34,197,94,0.25); }
+  .pillar:nth-child(5)::before { background: var(--gold); box-shadow: 0 0 14px rgba(251,191,36,0.25); }
 
-  .pillar-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-
+  .pillar-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
   .pillar-icon {
-    width: 34px; height: 34px; border-radius: 8px;
+    width: 30px; height: 30px; border-radius: 7px;
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .pillar-icon svg { width: 18px; height: 18px; }
-  .pillar-icon.p1 { background: rgba(0,229,255,0.12); box-shadow: 0 0 16px rgba(0,229,255,0.1); }
+  .pillar-icon svg { width: 16px; height: 16px; }
+  .pillar-icon.p1 { background: rgba(0,229,255,0.12); }
   .pillar-icon.p1 svg { fill: var(--cyan); stroke: var(--cyan); }
-  .pillar-icon.p2 { background: rgba(77,124,255,0.12); box-shadow: 0 0 16px rgba(77,124,255,0.1); }
+  .pillar-icon.p2 { background: rgba(77,124,255,0.12); }
   .pillar-icon.p2 svg { fill: var(--blue); stroke: var(--blue); }
-  .pillar-icon.p3 { background: rgba(168,85,247,0.12); box-shadow: 0 0 16px rgba(168,85,247,0.1); }
+  .pillar-icon.p3 { background: rgba(168,85,247,0.12); }
   .pillar-icon.p3 svg { fill: var(--purple); stroke: var(--purple); }
-  .pillar-icon.p4 { background: rgba(34,197,94,0.12); box-shadow: 0 0 16px rgba(34,197,94,0.1); }
-  .pillar-icon.p4 svg { fill: #22c55e; stroke: #22c55e; }
-  .pillar-icon.p5 { background: rgba(251,191,36,0.12); box-shadow: 0 0 16px rgba(251,191,36,0.1); }
-  .pillar-icon.p5 svg { fill: #fbbf24; stroke: #fbbf24; }
+  .pillar-icon.p4 { background: rgba(34,197,94,0.12); }
+  .pillar-icon.p4 svg { fill: var(--green); stroke: var(--green); }
+  .pillar-icon.p5 { background: rgba(251,191,36,0.12); }
+  .pillar-icon.p5 svg { fill: var(--gold); stroke: var(--gold); }
 
   .pillar-title {
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.98rem;
   }
-  .pillar-title .num {
-    color: var(--text-dim); font-weight: 600; font-size: 0.76rem; margin-right: 3px; opacity: 0.5;
-  }
+  .pillar-title .num { color: var(--text-dim); font-size: 0.72rem; margin-right: 2px; opacity: 0.5; }
 
   .pillar ul { list-style: none; }
   .pillar li {
-    font-size: 0.86rem; color: var(--text-mid); padding: 2.5px 0 2.5px 14px;
-    position: relative; line-height: 1.4;
+    font-size: 0.82rem; color: var(--text-mid); padding: 2px 0 2px 13px;
+    position: relative; line-height: 1.38;
   }
   .pillar li::before {
     content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
-    width: 5px; height: 5px; border-radius: 50%;
+    width: 4px; height: 4px; border-radius: 50%;
   }
-  .pillar:nth-child(1) li::before { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
-  .pillar:nth-child(2) li::before { background: var(--blue); box-shadow: 0 0 6px rgba(77,124,255,0.3); }
-  .pillar:nth-child(3) li::before { background: var(--purple); box-shadow: 0 0 6px rgba(168,85,247,0.3); }
-  .pillar:nth-child(4) li::before { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.3); }
-
+  .pillar:nth-child(1) li::before { background: var(--cyan); box-shadow: 0 0 5px var(--cyan-glow); }
+  .pillar:nth-child(2) li::before { background: var(--blue); }
+  .pillar:nth-child(3) li::before { background: var(--purple); }
+  .pillar:nth-child(4) li::before { background: var(--green); }
   .pillar li strong { color: var(--text); font-weight: 600; }
 
   .pillar .metric {
-    display: inline-block; margin-top: 7px; font-size: 0.78rem; font-weight: 700;
+    display: inline-block; margin-top: 5px; font-size: 0.74rem; font-weight: 700;
     color: var(--cyan); background: rgba(0,229,255,0.07);
-    border: 1px solid rgba(0,229,255,0.12); padding: 3px 11px; border-radius: 6px;
+    border: 1px solid rgba(0,229,255,0.12); padding: 2px 10px; border-radius: 5px;
   }
 
-  /* Pillar 5 — full width */
   .pillar.full-width {
     grid-column: 1 / -1; display: grid;
-    grid-template-columns: 155px 1fr 1fr 1fr;
-    gap: 14px; align-items: start; padding: 13px 18px;
+    grid-template-columns: 145px 1fr 1fr 1fr;
+    gap: 12px; align-items: start; padding: 11px 16px;
   }
-  .pillar.full-width .pillar-header { margin-bottom: 0; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .pillar.full-width .pillar-header { margin-bottom: 0; flex-direction: column; align-items: flex-start; gap: 3px; }
   .pillar.full-width .fw-col {
-    font-size: 0.86rem; color: var(--text-mid); line-height: 1.4;
-    padding-left: 12px; border-left: 2px solid rgba(251,191,36,0.2);
+    font-size: 0.82rem; color: var(--text-mid); line-height: 1.38;
+    padding-left: 10px; border-left: 2px solid rgba(251,191,36,0.2);
   }
   .pillar.full-width .fw-col .fw-label {
-    font-weight: 700; color: var(--text); font-size: 0.88rem; margin-bottom: 2px;
+    font-weight: 700; color: var(--text); font-size: 0.84rem; margin-bottom: 1px;
   }
 
-  /* ══════════════════════════════════════════
-     BOTTOM SECTION: Chart + Metrics + CTA
-     ══════════════════════════════════════════ */
-
+  /* ── Bottom section ── */
   .bottom-section {
     flex: 1; min-height: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
-    gap: 8px;
+    display: grid; grid-template-columns: 1fr; grid-template-rows: auto 1fr; gap: 8px;
   }
 
-  /* ── Chart panel ── */
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .metric-card {
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 8px; text-align: center;
+  }
+  .metric-value {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem;
+    background: var(--accent-gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.15; margin-bottom: 3px;
+    filter: drop-shadow(0 0 10px rgba(0,229,255,0.18));
+  }
+  .metric-label { font-size: 0.74rem; color: var(--text-dim); line-height: 1.3; }
+
   .chart-panel {
     background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
     border: 1px solid var(--border); border-radius: 10px;
-    padding: 12px 16px 10px; position: relative; overflow: hidden;
-    min-height: 0;
+    padding: 10px 16px 8px; position: relative; overflow: hidden; min-height: 0;
   }
   .chart-panel::before {
     content: ''; position: absolute; top: -1px; left: 15%; right: 15%;
     height: 1px; background: var(--accent-gradient); opacity: 0.3;
   }
   .chart-panel h3 {
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.92rem;
-    margin-bottom: 4px; color: var(--text);
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem;
+    margin-bottom: 3px; color: var(--text);
   }
-  .chart-wrap {
-    width: 100%; height: calc(100% - 36px); /* minus title + legend */
-  }
-  .chart-svg {
-    width: 100%; height: 100%; display: block;
-  }
-  .chart-legend {
-    display: flex; gap: 18px; margin-top: 3px; font-size: 0.74rem;
-  }
+  .chart-wrap { width: 100%; height: calc(100% - 32px); }
+  .chart-svg { width: 100%; height: 100%; display: block; }
+  .chart-legend { display: flex; gap: 16px; margin-top: 2px; font-size: 0.72rem; }
   .chart-legend span { display: flex; align-items: center; gap: 5px; color: var(--text-dim); }
   .chart-legend .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .dot.manual { background: #444; border: 1px solid #666; }
   .dot.ai { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-glow); }
 
-  /* ── Metrics row ── */
-  .metrics-row {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
-  }
-  .metric-card {
-    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
-    border: 1px solid var(--border); border-radius: 8px;
-    padding: 12px 10px; text-align: center; transition: border-color 0.3s;
-  }
-  .metric-card:hover { border-color: var(--border-glow); }
-  .metric-value {
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.65rem;
-    background: var(--accent-gradient); -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent; background-clip: text;
-    line-height: 1.15; margin-bottom: 4px;
-    filter: drop-shadow(0 0 10px rgba(0,229,255,0.18));
-  }
-  .metric-label { font-size: 0.78rem; color: var(--text-dim); line-height: 1.35; }
+  /* ══════════════════════════
+     PAGE 2: THE ASK
+     ══════════════════════════ */
 
-  /* ── CTA ── */
-  .cta {
-    text-align: center; padding: 14px 32px; border-radius: 10px;
+  .page2-header {
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border); position: relative;
+  }
+  .page2-header::after {
+    content: ''; position: absolute; bottom: -1px; left: 0;
+    width: 200px; height: 1px; background: var(--accent-gradient);
+  }
+  .page2-header h2 {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 2.2rem;
+    letter-spacing: -0.03em; color: var(--text); line-height: 1.15;
+  }
+  .page2-header h2 span {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .page2-header .page2-sub {
+    font-size: 0.95rem; color: var(--text-dim); margin-top: 3px;
+  }
+
+  /* The big number */
+  .the-ask {
+    display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center;
+    background: linear-gradient(135deg, rgba(0,229,255,0.08) 0%, rgba(77,124,255,0.06) 50%, rgba(168,85,247,0.04) 100%);
+    border: 1px solid var(--border-glow); border-radius: 12px;
+    padding: 20px 28px; margin-bottom: 16px; position: relative; overflow: hidden;
+  }
+  .the-ask::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: var(--accent-gradient); opacity: 0.5;
+  }
+  .ask-amount {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3.8rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1; filter: drop-shadow(0 0 20px rgba(0,229,255,0.2));
+  }
+  .ask-amount small {
+    font-size: 1.4rem; font-weight: 700;
+    -webkit-text-fill-color: var(--text-dim);
+  }
+  .ask-detail {
+    font-size: 1.05rem; color: var(--text); line-height: 1.6;
+  }
+  .ask-detail strong { color: var(--cyan); }
+  .ask-detail .dim { color: var(--text-dim); font-size: 0.9rem; }
+
+  /* Team restructure */
+  .team-section {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .team-card {
+    background: linear-gradient(160deg, var(--surface) 0%, var(--surface-raised) 100%);
+    border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; position: relative; overflow: hidden;
+  }
+  .team-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px; border-radius: 10px 10px 0 0;
+  }
+  .team-card:nth-child(1)::before { background: var(--cyan); }
+  .team-card:nth-child(2)::before { background: var(--blue); }
+  .team-card:nth-child(3)::before { background: var(--purple); }
+
+  .team-card .role {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+  .team-card .name {
+    font-size: 0.85rem; font-weight: 600; color: var(--cyan); margin-bottom: 8px;
+  }
+  .team-card .focus { font-size: 0.88rem; color: var(--text-mid); line-height: 1.45; }
+  .team-card .tag {
+    display: inline-block; margin-top: 8px; font-size: 0.72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px;
+    border-radius: 5px;
+  }
+  .tag.existing { color: var(--cyan-dim); background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.15); }
+  .tag.new-hire { color: var(--purple); background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.15); }
+
+  /* ROI comparison */
+  .roi-section {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .roi-card {
+    border-radius: 10px; padding: 18px 20px; position: relative;
+  }
+  .roi-card.without {
+    background: linear-gradient(160deg, rgba(239,68,68,0.06) 0%, var(--surface) 100%);
+    border: 1px solid rgba(239,68,68,0.15);
+  }
+  .roi-card.with {
+    background: linear-gradient(160deg, rgba(0,229,255,0.08) 0%, var(--surface) 100%);
+    border: 1px solid rgba(0,229,255,0.2);
+  }
+  .roi-card h4 {
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  .roi-card.without h4 { color: var(--red); }
+  .roi-card.with h4 { color: var(--cyan); }
+
+  .roi-card ul { list-style: none; }
+  .roi-card li {
+    font-size: 0.88rem; color: var(--text-mid); line-height: 1.5;
+    padding: 3px 0 3px 16px; position: relative;
+  }
+  .roi-card.without li::before {
+    content: '✕'; position: absolute; left: 0; color: var(--red); font-weight: 700; font-size: 0.8rem;
+  }
+  .roi-card.with li::before {
+    content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700; font-size: 0.8rem;
+  }
+  .roi-card li strong { color: var(--text); font-weight: 600; }
+
+  /* Context framing */
+  .context-bar {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;
+    margin-bottom: 16px;
+  }
+  .context-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; text-align: center;
+  }
+  .context-item .ctx-value {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem;
+    color: var(--text); line-height: 1.15; margin-bottom: 4px;
+  }
+  .context-item .ctx-value .hl { color: var(--cyan); }
+  .context-item .ctx-label {
+    font-size: 0.78rem; color: var(--text-dim); line-height: 1.35;
+  }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center; padding: 20px 32px; border-radius: 12px;
     background: linear-gradient(135deg, rgba(0,229,255,0.10) 0%, rgba(77,124,255,0.08) 40%, rgba(168,85,247,0.06) 100%);
     border: 1px solid var(--border-glow); position: relative; overflow: hidden;
+    margin-top: auto;
   }
-  .cta::before {
+  .final-cta::before {
     content: ''; position: absolute; inset: 0;
     background: linear-gradient(90deg, transparent, rgba(0,229,255,0.04), transparent);
     animation: ctaPulse 4s ease-in-out infinite;
   }
   @keyframes ctaPulse { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
-  .cta p {
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.98rem;
-    color: var(--text); line-height: 1.5; position: relative;
+  .final-cta .big-line {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.35rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1.4; position: relative; margin-bottom: 6px;
   }
-  .cta p strong { color: var(--cyan); }
-  .cta p em { font-style: italic; color: var(--text-dim); }
+  .final-cta .sub-line {
+    font-size: 0.95rem; color: var(--text-mid); line-height: 1.5; position: relative;
+  }
+  .final-cta .sub-line strong {
+    color: var(--text); font-weight: 600;
+  }
 
   /* ── Animations ── */
   @keyframes drawLine { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
@@ -312,9 +428,10 @@
 
   /* ── Print — keep dark theme ── */
   @media print {
-    html { font-size: 11px; }
+    html { font-size: 10.8px; }
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .page { padding: 12px 16px 10px; height: auto; }
+    .page + .page { page-break-before: always; }
     .ambient, .glow-line-bottom, .corner-accent { display: none; }
     .glow-line { background: var(--accent-gradient); }
     .glow-line::before, .glow-line::after { display: none; }
@@ -326,8 +443,11 @@
 </style>
 </head>
 <body>
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE 1 — THE STRATEGIC CASE                         ║
+     ╚═══════════════════════════════════════════════════════╝ -->
 <div class="page">
-  <!-- Decorative layers -->
   <div class="glow-line"></div>
   <div class="glow-line-bottom"></div>
   <div class="ambient a1 float"></div>
@@ -354,11 +474,10 @@
     </defs>
   </svg>
 
-  <!-- ════ HEADER ════ -->
   <header class="header">
     <div class="header-left">
       <h1>Agentic AI for Mobile Games</h1>
-      <div class="subtitle">Strategic Investment Thesis — Executive Summary</div>
+      <div class="subtitle">Strategic Investment Thesis — Carry1st</div>
     </div>
     <div class="header-right">
       <div class="label">Confidential</div><br>
@@ -366,109 +485,86 @@
     </div>
   </header>
 
-  <!-- ════ THESIS ════ -->
   <div class="thesis">
     Agentic AI is not a feature — it is <strong>infrastructure that compounds</strong>. Every dollar invested today reduces costs, accelerates output, and deepens competitive moats across <strong>every team, every title, every quarter</strong>.
   </div>
 
-  <!-- ════ 5 PILLARS ════ -->
   <div class="pillars">
-
-    <!-- P1: Exponential Productivity (#1, #2, #3, #9) -->
     <div class="pillar">
       <div class="pillar-header">
-        <div class="pillar-icon p1">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
+        <div class="pillar-icon p1"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
         <div class="pillar-title"><span class="num">01</span> Exponential Productivity</div>
       </div>
       <ul>
         <li><strong>Non-linear output growth</strong> — agents chain generation → validation → balancing → testing autonomously</li>
         <li><strong>Cross-team tooling leverage</strong> — one AI lead amplifies design, art, engineering, QA & live ops simultaneously</li>
         <li><strong>Rapid prototyping</strong> — reduce time-to-first-playable, accelerating greenlight decisions</li>
-        <li><strong>Senior talent freed</strong> — balancing tables, reward curves & progression automated; designers focus on creative work</li>
+        <li><strong>Senior talent freed</strong> — balancing tables, reward curves & progression automated</li>
       </ul>
       <div class="metric">→ 10× faster iteration loops</div>
     </div>
 
-    <!-- P2: Scalable Content & Live Ops (#4, #5, #12) -->
     <div class="pillar">
       <div class="pillar-header">
-        <div class="pillar-icon p2">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
-        </div>
+        <div class="pillar-icon p2"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg></div>
         <div class="pillar-title"><span class="num">02</span> Scalable Content & Live Ops</div>
       </div>
       <ul>
-        <li><strong>Procedural + agentic pipelines</strong> — scalable levels, quests, dialogue & puzzles critical for F2P retention</li>
-        <li><strong>Autonomous live ops</strong> — agents design, test & deploy event variations and economy tweaks with minimal intervention</li>
-        <li><strong>Near-zero marginal cost</strong> — once infra is built, incremental content costs collapse vs. manual pipelines</li>
+        <li><strong>Procedural + agentic pipelines</strong> — scalable levels, quests, dialogue & puzzles for F2P retention</li>
+        <li><strong>Autonomous live ops</strong> — agents design, test & deploy event variations with minimal intervention</li>
+        <li><strong>Near-zero marginal cost</strong> — once infra is built, incremental content costs collapse</li>
       </ul>
       <div class="metric">→ Near-zero marginal content cost</div>
     </div>
 
-    <!-- P3: Player Intelligence & Growth (#6, #7, #8, #15) -->
     <div class="pillar">
       <div class="pillar-header">
-        <div class="pillar-icon p3">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6" opacity="0.5"/><circle cx="12" cy="12" r="2"/></svg>
-        </div>
+        <div class="pillar-icon p3"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6" opacity="0.5"/><circle cx="12" cy="12" r="2"/></svg></div>
         <div class="pillar-title"><span class="num">03</span> Player Intelligence & Growth</div>
       </div>
       <ul>
-        <li><strong>Dynamic personalization</strong> — adaptive difficulty, quest generation & narrative per player segment; improves LTV</li>
-        <li><strong>UA economics</strong> — AI-iterated onboarding & FTUE flows improve D1/D7 retention, directly reducing effective CPI</li>
-        <li><strong>Rapid experimentation</strong> — agents propose hypotheses, generate variants & prep deployment-ready builds autonomously</li>
-        <li><strong>Data-driven balancing</strong> — agents ingest telemetry and propose economy corrections, closing insight-to-action lag</li>
+        <li><strong>Dynamic personalization</strong> — adaptive difficulty, quest generation & narrative per player segment</li>
+        <li><strong>UA economics</strong> — AI-iterated onboarding & FTUE flows improve D1/D7, reducing effective CPI</li>
+        <li><strong>Rapid experimentation</strong> — agents propose hypotheses, generate variants & prep builds autonomously</li>
+        <li><strong>Data-driven balancing</strong> — agents ingest telemetry and propose economy corrections in real time</li>
       </ul>
       <div class="metric">→ 1,000s of simulated playtests</div>
     </div>
 
-    <!-- P4: Quality & Risk Reduction (#10, #16, #18) -->
     <div class="pillar">
       <div class="pillar-header">
-        <div class="pillar-icon p4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
+        <div class="pillar-icon p4"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
         <div class="pillar-title"><span class="num">04</span> Quality & Risk Reduction</div>
       </div>
       <ul>
-        <li><strong>QA at scale</strong> — autonomous agents simulate 1,000s of gameplay sessions, catching bugs, exploits & economy breaks early</li>
-        <li><strong>Knowledge encoding</strong> — design philosophy, best practices & historical learnings embedded in reusable agent frameworks</li>
-        <li><strong>Cross-discipline alignment</strong> — agent systems formalize workflows, reducing friction between product, engineering & design</li>
+        <li><strong>QA at scale</strong> — autonomous agents simulate 1,000s of sessions, catching bugs & exploits early</li>
+        <li><strong>Knowledge encoding</strong> — design philosophy & best practices embedded in reusable frameworks</li>
+        <li><strong>Cross-discipline alignment</strong> — agent systems formalize workflows between product, eng & design</li>
       </ul>
       <div class="metric">→ 90%+ regression coverage, 24/7</div>
     </div>
 
-    <!-- P5: Strategic Advantage (#11, #19, #20) -->
     <div class="pillar full-width">
       <div class="pillar-header">
-        <div class="pillar-icon p5">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        </div>
+        <div class="pillar-icon p5"><svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
         <div class="pillar-title"><span class="num">05</span> Strategic Advantage</div>
       </div>
       <div class="fw-col">
         <div class="fw-label">Competitive Moat</div>
-        Proprietary agent pipelines become <strong>internal IP</strong> — a defensible tech advantage vs. studios relying on off-the-shelf tools, compounding over time
+        Proprietary agent pipelines become <strong>internal IP</strong> — defensible tech advantage compounding over time
       </div>
       <div class="fw-col">
         <div class="fw-label">Industry Positioning</div>
-        Agentic AI will reshape pipelines industry-wide — <strong>early adoption</strong> positions the studio to define the next era of game economics
+        <strong>Early adoption</strong> positions Carry1st to define the next era of studio economics
       </div>
       <div class="fw-col">
         <div class="fw-label">Monetization Optionality</div>
-        A robust internal AI toolchain can later be <strong>licensed, spun off</strong>, or used to attract strategic partnerships & new revenue streams
+        Internal toolchain can later be <strong>licensed, spun off</strong>, or used to attract strategic partnerships
       </div>
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════
-       BOTTOM: Chart + Metrics + CTA
-       ══════════════════════════════════════ -->
   <div class="bottom-section">
-
-    <!-- Metrics row -->
     <div class="metrics-row">
       <div class="metric-card">
         <div class="metric-value">3–5×</div>
@@ -488,23 +584,17 @@
       </div>
     </div>
 
-    <!-- Chart panel -->
     <div class="chart-panel">
       <h3>Impact Trajectory — Cost per Feature Shipped</h3>
       <div class="chart-wrap">
         <svg class="chart-svg" viewBox="0 0 520 130" preserveAspectRatio="xMidYMid meet" fill="none">
-          <!-- Axes -->
           <line x1="40" y1="8" x2="40" y2="108" stroke="#1a1a2e" stroke-width="1"/>
           <line x1="40" y1="108" x2="505" y2="108" stroke="#1a1a2e" stroke-width="1"/>
           <line x1="40" y1="83" x2="505" y2="83" stroke="#1a1a2e" stroke-width="0.4" stroke-dasharray="4,4"/>
           <line x1="40" y1="58" x2="505" y2="58" stroke="#1a1a2e" stroke-width="0.4" stroke-dasharray="4,4"/>
           <line x1="40" y1="33" x2="505" y2="33" stroke="#1a1a2e" stroke-width="0.4" stroke-dasharray="4,4"/>
-
-          <!-- Y labels -->
           <text x="36" y="20" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">High</text>
           <text x="36" y="105" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">Low</text>
-
-          <!-- X labels -->
           <text x="40" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q1</text>
           <text x="133" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q2</text>
           <text x="226" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q3</text>
@@ -512,53 +602,32 @@
           <text x="412" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q5</text>
           <text x="505" y="121" fill="#8888a0" font-size="8" font-family="DM Sans" text-anchor="middle">Q6</text>
 
-          <!-- Area fills -->
           <path d="M40,18 C110,19 190,20 270,21 C350,22 430,23 505,24 L505,108 L40,108 Z" fill="url(#manualGrad)" opacity="0.12"/>
           <path d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102 L505,108 L40,108 Z" fill="url(#aiGrad)" opacity="0.12"/>
 
-          <!-- Manual line — flat near top (high cost stays high) -->
-          <path d="M40,18 C110,19 190,20 270,21 C350,22 430,23 505,24"
-                stroke="#555" stroke-width="2" fill="none" stroke-linecap="round" class="animate-path"/>
+          <path d="M40,18 C110,19 190,20 270,21 C350,22 430,23 505,24" stroke="#555" stroke-width="2" fill="none" stroke-linecap="round" class="animate-path"/>
+          <path id="aiPath" d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102" stroke="url(#aiStroke)" stroke-width="2.5" fill="none" stroke-linecap="round" class="animate-path-delayed"/>
+          <path d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102" stroke="url(#aiStroke)" stroke-width="10" fill="none" opacity="0.1" stroke-linecap="round"/>
 
-          <!-- AI line — drops down (cost plummets) -->
-          <path id="aiPath" d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102"
-                stroke="url(#aiStroke)" stroke-width="2.5" fill="none" stroke-linecap="round" class="animate-path-delayed"/>
-          <!-- AI glow -->
-          <path d="M40,20 C110,32 180,48 250,64 C320,78 400,90 460,98 L505,102"
-                stroke="url(#aiStroke)" stroke-width="10" fill="none" opacity="0.1" stroke-linecap="round"/>
-
-          <!-- Heartbeat pulse dot traveling along AI line -->
-          <!-- Outer glow ring -->
           <circle r="8" fill="none" stroke="#00e5ff" stroke-width="1" opacity="0" filter="url(#pulseGlow)">
-            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
-              <mpath href="#aiPath"/>
-            </animateMotion>
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1s"><mpath href="#aiPath"/></animateMotion>
             <animate attributeName="opacity" values="0;0.4;0" dur="3s" repeatCount="indefinite" begin="1s"/>
-            <animate attributeName="r" values="5;10;5" dur="3s" repeatCount="indefinite" begin="1s"/>
           </circle>
-          <!-- Bright core dot -->
           <circle r="3" fill="#00e5ff" opacity="0">
-            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
-              <mpath href="#aiPath"/>
-            </animateMotion>
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1s"><mpath href="#aiPath"/></animateMotion>
             <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite" begin="1s"/>
           </circle>
-          <!-- Hot white center -->
           <circle r="1.5" fill="#fff" opacity="0">
-            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
-              <mpath href="#aiPath"/>
-            </animateMotion>
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1s"><mpath href="#aiPath"/></animateMotion>
             <animate attributeName="opacity" values="0;0.9;0" dur="3s" repeatCount="indefinite" begin="1s"/>
           </circle>
 
-          <!-- Divergence pulse at Q4 -->
           <line x1="319" y1="22" x2="319" y2="72" stroke="rgba(0,229,255,0.5)" stroke-width="1.5" stroke-dasharray="3,3" style="animation: pulseLine 2s ease-in-out infinite;"/>
           <line x1="319" y1="22" x2="319" y2="72" stroke="rgba(0,229,255,0.15)" stroke-width="6" style="animation: pulseLine 2s ease-in-out infinite; filter: blur(4px);"/>
           <rect x="326" y="36" width="86" height="24" rx="4" fill="rgba(0,229,255,0.06)" stroke="rgba(0,229,255,0.15)" stroke-width="0.5"/>
           <text x="369" y="46" fill="#00e5ff" font-size="7.5" font-family="Syne" font-weight="700" text-anchor="middle">Divergence</text>
           <text x="369" y="56" fill="#8888a0" font-size="6.5" font-family="DM Sans" text-anchor="middle">widens each quarter</text>
 
-          <!-- End dots + labels -->
           <circle cx="505" cy="24" r="3.5" fill="#555" stroke="#444" stroke-width="1"/>
           <text x="497" y="18" fill="#8888a0" font-size="7" font-family="DM Sans" text-anchor="end">Manual</text>
           <circle cx="505" cy="102" r="4" fill="#00e5ff" opacity="0.9"/>
@@ -587,9 +656,107 @@
         <span><span class="dot ai"></span> AI-Augmented Pipeline</span>
       </div>
     </div>
+  </div>
+</div>
 
+
+<!-- ╔═══════════════════════════════════════════════════════╗
+     ║  PAGE 2 — THE ASK                                    ║
+     ╚═══════════════════════════════════════════════════════╝ -->
+<div class="page">
+  <div class="glow-line"></div>
+  <div class="glow-line-bottom"></div>
+  <div class="ambient a1 float"></div>
+  <div class="ambient a2 float-delay"></div>
+  <div class="ambient a3"></div>
+
+  <div class="page2-header">
+    <h2>The Ask: <span>$35k/year</span></h2>
+    <div class="page2-sub">Total investment to unlock compounding AI-driven returns across all Carry1st titles</div>
+  </div>
+
+  <!-- The big ask -->
+  <div class="the-ask">
+    <div class="ask-amount">$35k<small>/yr</small></div>
+    <div class="ask-detail">
+      <strong>One new hire</strong> + AI platform token costs.<br>
+      That's less than <strong>half the cost of a single mid-level engineer</strong> — to transform how every team at Carry1st builds, ships, and operates games.<br>
+      <span class="dim">Covers salary for a support hire + annual API/token budget for AI agent infrastructure.</span>
+    </div>
+  </div>
+
+  <!-- Team restructure -->
+  <div class="team-section">
+    <div class="team-card">
+      <div class="role">Agentic AI Lead</div>
+      <div class="name">Denzil</div>
+      <div class="focus">Full-time focus on building and deploying agentic AI systems — autonomous pipelines for content generation, QA, live ops, balancing, and cross-team tooling. This is the force multiplier.</div>
+      <div class="tag existing">Existing team — refocused</div>
+    </div>
+    <div class="team-card">
+      <div class="role">Game Dev & Maintenance</div>
+      <div class="name">JD</div>
+      <div class="focus">Takes primary ownership of existing title maintenance, updates, and live operations. Ensures current revenue streams remain stable while AI infrastructure is built.</div>
+      <div class="tag existing">Existing team — refocused</div>
+    </div>
+    <div class="team-card">
+      <div class="role">Dev Support</div>
+      <div class="name">New Hire</div>
+      <div class="focus">Supports JD on title maintenance and assists Denzil on implementation. Provides bandwidth so neither role becomes a bottleneck. Junior-to-mid level.</div>
+      <div class="tag new-hire">New hire — the $35k ask</div>
+    </div>
+  </div>
+
+  <!-- ROI comparison -->
+  <div class="roi-section">
+    <div class="roi-card without">
+      <h4>Without This Investment</h4>
+      <ul>
+        <li>Content creation stays <strong>linear</strong> — every feature requires proportional dev time</li>
+        <li>Live ops remains <strong>manual, slow, expensive</strong></li>
+        <li>QA coverage stays incomplete — bugs ship, players churn</li>
+        <li>Competitors adopting AI pull ahead <strong>every quarter</strong></li>
+        <li>Denzil is split between maintenance and innovation — <strong>neither gets full attention</strong></li>
+      </ul>
+    </div>
+    <div class="roi-card with">
+      <h4>With $35k/year Investment</h4>
+      <ul>
+        <li>Denzil is <strong>100% focused</strong> on building AI infrastructure that compounds</li>
+        <li>Existing titles stay maintained — <strong>zero revenue risk</strong></li>
+        <li>Content costs trend toward <strong>near-zero marginal</strong> within 2–3 quarters</li>
+        <li>Every new tool Denzil builds amplifies <strong>every team, every title</strong></li>
+        <li>Carry1st becomes the <strong>first African studio</strong> with proprietary agentic game dev</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Context framing -->
+  <div class="context-bar">
+    <div class="context-item">
+      <div class="ctx-value">$35k <span class="hl">vs $80k+</span></div>
+      <div class="ctx-label">Cost of this ask vs. a single mid-level engineer hire annually</div>
+    </div>
+    <div class="context-item">
+      <div class="ctx-value"><span class="hl">Q2 2026</span></div>
+      <div class="ctx-label">First autonomous pipeline live — content generation or QA agent</div>
+    </div>
+    <div class="context-item">
+      <div class="ctx-value"><span class="hl">0</span> revenue risk</div>
+      <div class="ctx-label">JD + new hire maintain all existing titles throughout transition</div>
+    </div>
+  </div>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <div class="big-line">$35k to unlock compounding returns across every team, every title, every quarter.</div>
+    <div class="sub-line">
+      This isn't a bet on AI. It's a <strong>restructure that pays for itself within two quarters</strong> — and compounds from there.<br>
+      The only risk is waiting.
+    </div>
   </div>
 
 </div>
+
 </body>
 </html>
